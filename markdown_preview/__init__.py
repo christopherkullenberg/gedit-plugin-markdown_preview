@@ -526,8 +526,11 @@ class MarkdownGeditPluginWindow(GObject.Object, Gedit.WindowActivatable, PeasGtk
 			# It gets the chosen file's path
 			if response == Gtk.ResponseType.OK:
 				if (file_chooser.get_filename().split('.')[-1] == 'html'):
-					subprocess.run(['pandoc', self.window.get_active_document().get_location().get_path(), \
-						'-o', file_chooser.get_filename()])
+					subprocess.run(['pandoc', '-V', 'fontsize=12pt', 
+                                                        '-V', 'papersize:"a4paper"', '-V', 
+                                                        'geometry:margin=1in', 
+                                                        self.window.get_active_document().get_location().get_path(), \
+						        '-o', file_chooser.get_filename()])
 						
 					pre_string = '<html><head><meta charset="utf-8" /><link rel="stylesheet" href="' + \
 						self._settings.get_string('style') + '" /></head><body>'
@@ -543,8 +546,11 @@ class MarkdownGeditPluginWindow(GObject.Object, Gedit.WindowActivatable, PeasGtk
 					f.write(post_string)
 					f.close()
 				else:
-					subprocess.run(['pandoc', self.window.get_active_document().get_location().get_path(), \
-						'-o', file_chooser.get_filename()])
+				    subprocess.run(['pandoc', '-V', 'fontsize=12pt', 
+                                                    '-V', 'papersize:"a4paper"', '-V', 
+                                                    'geometry:margin=1in', 
+                                                    self.window.get_active_document().get_location().get_path(), \
+						    '-o', file_chooser.get_filename()])
 			file_chooser.destroy()
 		
 	def print_doc(self, a, b):
